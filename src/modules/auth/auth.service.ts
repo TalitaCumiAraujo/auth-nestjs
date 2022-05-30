@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { UnauthorizedError } from './errors/UnauthorizedError';
+import { ResponseError } from '../errors/response.error';
 import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 import { UserPayload } from './models/UserPayload';
@@ -22,7 +22,7 @@ export class AuthService {
     };
 
     return {
-      access_token: this.jwtService.sign(payload),
+      token: this.jwtService.sign(payload),
     };
   }
 
@@ -40,8 +40,9 @@ export class AuthService {
       }
     }
 
-    throw new UnauthorizedError(
+    throw new ResponseError(
       'O e-mail ou a senha fornecidas estão incorretos.',
+      HttpStatus.BAD_REQUEST,
     );
   }
 }

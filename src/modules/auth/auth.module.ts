@@ -4,9 +4,9 @@ import { PassportModule } from '@nestjs/passport';
 import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { JwtStrategy } from './strategies/JwtStrategy';
-import { LocalStrategy } from './strategies/LocalStrategy';
-import { LoginValidationMiddleware } from './middlewares/LoginValidationMiddleware';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { LocalStrategy } from './strategies/local.strategy';
+import { LoginValidationMiddleware } from './middlewares/login-validation.middleware';
 
 @Module({
   imports: [
@@ -14,7 +14,7 @@ import { LoginValidationMiddleware } from './middlewares/LoginValidationMiddlewa
     PassportModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '30d' },
+      signOptions: { expiresIn: '1d' },
     }),
   ],
   controllers: [AuthController],
